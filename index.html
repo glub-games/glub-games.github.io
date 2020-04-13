@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>*glub* games</title>
+    <link rel="icon" href="glub.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Capriola&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Capriola", sans-serif;
+      }
+
+      body {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+        gap: 2.5rem;
+        height: 100vh;
+        align-items: center;
+        justify-items: center;
+        flex-direction: column;
+        background-color: #3b3b3b;
+        margin: 0;
+        padding: 2.5rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+        color: #b9bbbe;
+        margin: 0;
+      }
+
+      @media screen and (min-width: 640px) {
+        h1 {
+          font-size: 4rem;
+        }
+      }
+
+      .img {
+        height: 100%;
+        width: 100%;
+        background: url(glub.png) center no-repeat;
+        background-size: contain;
+      }
+
+      .img.map {
+        background-image: url(map.png);
+      }
+
+      .links {
+        font-size: 2rem;
+      }
+
+      a {
+        color: #00b0f4;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>*glub* games</h1>
+    <div class="links">
+      <a
+        tabindex="0"
+        href="https://map.glub.games"
+        aria-label="map"
+        onmouseover="map()"
+        onfocus="map()"
+        onblur="unmap()"
+        onmouseout="unmap()"
+        >🗺️</a
+      >
+    </div>
+    <div class="img" aria-label="glub games logo"></div>
+    <script>
+      function map() {
+        document.getElementsByClassName("img")[0].classList.add("map");
+      }
+
+      function unmap() {
+        document.getElementsByClassName("img")[0].classList.remove("map");
+      }
+    </script>
+  </body>
+</html>
