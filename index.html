@@ -10,22 +10,70 @@
       rel="stylesheet"
     />
     <style>
-      * {
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
         font-family: "Capriola", sans-serif;
       }
 
       body {
         display: grid;
-        grid-template-rows: auto auto 1fr;
+        grid-template-rows: auto 1fr;
         gap: 2.5rem;
-        height: 100vh;
         align-items: center;
         justify-items: center;
         flex-direction: column;
         background-color: #3b3b3b;
         margin: 0;
-        padding: 2.5rem;
+        padding: 1rem;
+        padding-top: 2.5rem;
+      }
+
+      .highlight {
+        color: #61b2ec;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem;
+      }
+
+      a {
+        position: relative;
+        display: grid;
+        align-items: center;
+
+        transition: all 0.25s ease-out;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+        text-decoration: none;
+      }
+
+      a::before {
+        display: block;
+
+        content: "";
+        padding-top: 100%;
+        grid-area: 1 / 1;
+      }
+
+      .label {
+        position: absolute;
+        padding: 1rem;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        background-color: #121212;
+        color: white;
+      }
+
+      a > img {
+        grid-area: 1 / 1;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
       }
 
       h1 {
@@ -34,56 +82,124 @@
         margin: 0;
       }
 
-      @media screen and (min-width: 640px) {
+      .fancytext {
+        margin-top: 0.5rem;
+        margin-left: -0.25rem;
+        padding: 0.25rem;
+
+        background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0) 50%,
+          #3b76a0 50%
+        );
+
+        background-size: 200%;
+        background-position: -100% 0;
+      }
+
+      @media screen and (min-width: 768px) {
+        body {
+          padding: 5rem;
+          gap: 5rem;
+        }
+
         h1 {
           font-size: 4rem;
         }
-      }
 
-      .img {
-        height: 100%;
-        width: 100%;
-        background: url(glub.png) center no-repeat;
-        background-size: contain;
-      }
+        .grid {
+          gap: 2.5rem;
+        }
 
-      .img.map {
-        background-image: url(map.png);
-      }
+        .fancytext {
+          margin: 1rem -0.5rem;
+          padding: 0.5rem;
 
-      .links {
-        font-size: 2rem;
-      }
+          background-position: 0 0;
 
-      a {
-        color: #00b0f4;
-        text-decoration: none;
+          transition: 0.25s ease-in-out;
+        }
+
+        a:hover,
+        a:focus,
+        a:active {
+          transform: translateY(-10px) scale(1.02);
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .label {
+          grid-area: 1 / 1;
+
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          align-self: stretch;
+          justify-self: stretch;
+
+          background-color: rgba(0, 0, 0, 0.5);
+          opacity: 0;
+          font-size: 1.5rem;
+
+          transition: all 0.25s ease-out;
+        }
+
+        @supports (backdrop-filter: blur(0.35rem)) {
+          .label {
+            background-color: none;
+            backdrop-filter: blur(0.35rem);
+          }
+        }
+
+        a:hover .fancytext,
+        a:focus .fancytext,
+        a:active .fancytext {
+          background-position: -100% 0;
+        }
+
+        a:hover .label,
+        a:focus .label {
+          opacity: 1;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>*glub* games</h1>
-    <div class="links">
-      <a
-        tabindex="0"
-        href="https://map.glub.games"
-        aria-label="map"
-        onmouseover="map()"
-        onfocus="map()"
-        onblur="unmap()"
-        onmouseout="unmap()"
-        >🗺️</a
-      >
+    <h1><span class="highlight">*glub*</span>.games</h1>
+    <div class="grid">
+      <a href="https://glub.games">
+        <img src="glub.png" alt="glub logo" />
+        <div class="label">
+          <div>
+            <span class="fancytext">home</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://map.glub.games">
+        <img src="map.png" alt="map splash background" />
+        <div class="label">
+          <div>
+            map
+            <br />
+            <div class="fancytext">
+              map.glub.games
+            </div>
+          </div>
+        </div>
+      </a>
+      <a tabindex="0" style="cursor: default;">
+        <img src="minecraft.png" alt="minecraft splash background" />
+        <div class="label">
+          <div>
+            minecraft
+            <br />
+            <div class="fancytext">
+              minecraft.glub.games
+            </div>
+          </div>
+        </div>
+      </a>
     </div>
-    <div class="img" aria-label="glub games logo"></div>
-    <script>
-      function map() {
-        document.getElementsByClassName("img")[0].classList.add("map");
-      }
-
-      function unmap() {
-        document.getElementsByClassName("img")[0].classList.remove("map");
-      }
-    </script>
   </body>
 </html>
