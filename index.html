@@ -31,7 +31,7 @@
       }
 
       .highlight {
-        color: #61b2ec;
+        color: hsl(205, 79%, 65%);
       }
 
       .grid {
@@ -90,7 +90,7 @@
         background: linear-gradient(
           to right,
           rgba(255, 255, 255, 0) 50%,
-          #3b76a0 50%
+          hsl(205, 79%, 65%) 50%
         );
 
         background-size: 200%;
@@ -104,6 +104,7 @@
         }
 
         h1 {
+          display: flex;
           font-size: 4rem;
         }
 
@@ -163,10 +164,26 @@
           opacity: 1;
         }
       }
+
+      .bubbles {
+        display: inline-block;
+        position: relative;
+      }
+
+      .individual-bubble {
+        position: absolute;
+        border-radius: 100%;
+        bottom: 10px;
+        font-size: 1rem;
+        z-index: -1;
+      }
     </style>
   </head>
   <body>
-    <h1><span class="highlight">*glub*</span>.games</h1>
+    <h1>
+      <div class="bubbles highlight">*glub*</div>
+      .games
+    </h1>
     <div class="grid">
       <a href="https://glub.games">
         <img src="glub.png" alt="glub logo" />
@@ -201,5 +218,80 @@
         </div>
       </a>
     </div>
+    <script>
+      function lerp(start, end, t) {
+        return end * t + start * (1 - t);
+      }
+
+      function rand(start, end) {
+        return Math.floor(lerp(start, end, Math.random()));
+      }
+
+      function animateBubble(elem) {
+        const length = 3000;
+        const start = performance.now();
+
+        const to = rand(150, 300);
+
+        function frame() {
+          const soFar = performance.now() - start;
+
+          elem.style.bottom = lerp(40, to, soFar / 3000) + "%"; // show frame
+          elem.style.opacity = lerp(0.7, 0, soFar / 3000); // show frame
+
+          if (soFar > length) {
+            // check finish condition
+            elem.remove();
+            clearInterval(id);
+          }
+        }
+
+        const id = setInterval(frame, 19); // draw every 10ms
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const bubbles = document.getElementsByClassName("bubbles")[0];
+        const width = bubbles.getBoundingClientRect().width;
+
+        // Define a size array, this will be used to vary bubble sizes
+        const sArray = [4, 6, 8, 10];
+        const fish = [
+          "🐟",
+          "🐠",
+          "🐡",
+          "🦈",
+          "🦦",
+          "🐬",
+          "🐋",
+          "🐳",
+          "🐙",
+          "🦀",
+          "🦞",
+          "🦐",
+          "🦑",
+        ];
+
+        // setInterval function used to create new bubble every 350 milliseconds
+        setInterval(() => {
+          // Get a random size, defined as variable so it can be used for both width and height
+          const size = sArray[rand(0, sArray.length)];
+
+          // New bubble appeneded to div with it's size and left position being set inline
+          // Left value is set through getting a random value from bArray
+          const newBubble = document.createElement("div");
+          newBubble.innerText = fish[rand(0, fish.length)];
+          newBubble.classList.add("individual-bubble");
+          newBubble.style.left = rand(0, width) + "px";
+          newBubble.style.left = rand(0, width) + "px";
+          newBubble.style.width = size + "px";
+          newBubble.style.height = size + "px";
+          newBubble.style.bottom = "40%";
+
+          bubbles.append(newBubble);
+
+          animateBubble(newBubble);
+        }, 350);
+      });
+    </script>
   </body>
 </html>
